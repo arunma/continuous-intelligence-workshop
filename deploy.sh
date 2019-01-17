@@ -16,4 +16,4 @@ TENANT_NAMESPACE=${TENANT:-admin}
 # done
 # echo "End point ready: http://$external_ip:5005"
 
-docker run -d -p 5005:5005 ci-workshop:$TENANT_NAMESPACE.$IMAGE_VERSION
+docker run -d -p 5005:5005 ci-workshop-app:$TENANT_NAMESPACE.$IMAGE_VERSION
