@@ -2,8 +2,7 @@
 set -xe
 
 IMAGE_VERSION=${GO_PIPELINE_LABEL:-latest}
-#TENANT_NAMESPACE=${TENANT:-admin}
-TENANT_NAMESPACE=gocd
+TENANT_NAMESPACE=${TENANT:-admin}
 echo "Deploying image version: $IMAGE_VERSION"
 
 cat kubernetes/web.yml | sed "s/\\\$tenant\\\$/$TENANT_NAMESPACE/" | sed "s/\(image: \).*$/\1$DOCKER_USER\/ci-workshop-app:$TENANT_NAMESPACE.$IMAGE_VERSION/" | kubectl apply -f -
