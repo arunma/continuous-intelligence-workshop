@@ -120,7 +120,7 @@ def write_predictions_and_score(validation_score, model, columns_used):
 def main(model=Model.DECISION_TREE, seed=None):
     original_train, original_validate = load_data()
     train, validate = encode(original_train, original_validate)
-    model = make_model(train, Model.GRADIENT_BOOST, seed)
+    model = make_model(train, Model.DECISION_TREE, seed)
     validation_predictions = make_predictions(model, validate)
 
     print("Calculating estimated error")
