@@ -1,4 +1,4 @@
 [core]
 remote = default
 ['remote "default"']
-url = gs://continuous-intelligence-ie
+url = gs://continuous-intelligence-arun-ie
