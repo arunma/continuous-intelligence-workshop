@@ -4,14 +4,14 @@ deps:
   path: data/splitter/train.csv
 - md5: c38869db7776de4a4298934196ce2991
   path: data/splitter/validation.csv
-- md5: 7f432d1981e84dbc43b4ec0f84eb4e1f
+- md5: 38e5b882650d359837088b60135f69a6
   path: src/decision_tree.py
-md5: d19592fe7c1dfc47ca0056f7b173b8f6
+md5: dbc600b1060ca7d25322b1e2fb3c330e
 outs:
 - cache: true
-  md5: 4f4722378c55a340d0603ed442e3b312
+  md5: 30d11a4aba127e95ff4be8ae8efffb05
   path: data/decision_tree/model.pkl
 - cache: false
-  md5: a3d2de7675556553a5f08e4c88d2c228
+  md5: 8827461f3b8e2cba06a9204598fc2505
   metric: true
   path: results/score.txt
