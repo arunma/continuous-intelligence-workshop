@@ -2,7 +2,7 @@
 set -xe
 
 IMAGE_VERSION=${GO_PIPELINE_LABEL:-latest}
-PROJECT_ID=${GCLOUD_PROJECT_ID:-continuous-intelligence}
+PROJECT_ID=${GCLOUD_PROJECT_ID:-ai-sg-workshop}
 TENANT_NAMESPACE=${TENANT:-admin}
 echo "Deploying image version: $IMAGE_VERSION"
 
