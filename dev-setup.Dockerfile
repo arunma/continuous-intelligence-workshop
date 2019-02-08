@@ -6,10 +6,10 @@ RUN apt-get update \
   && ln -s /usr/bin/python3 python \
   && pip3 install --upgrade pip
 
-RUN mkdir -p /app/continuous-intelligence
-RUN git clone https://github.com/ThoughtWorksInc/continuous-intelligence-workshop.git /app/continuous-intelligence
+WORKDIR /app/continuous-intelligence
 RUN mkdir /app/continuous-intelligence/data
-COPY data /app/continuous-intelligence/data
+
+COPY requirements.txt /app/continuous-intelligence/
 RUN cd /app/continuous-intelligence && pip3 install -r requirements.txt
 
 CMD ["/app/continuous-intelligence/start.sh"]

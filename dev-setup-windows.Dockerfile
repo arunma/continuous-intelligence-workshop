@@ -6,10 +6,10 @@ RUN Invoke-WebRequest 'https://github.com/git-for-windows/git/releases/download/
 RUN Expand-Archive C:\MinGit.zip -DestinationPath C:\MinGit
 RUN $env:PATH = $env:PATH + ';C:\MinGit\cmd\;C:\MinGit\cmd'
 
-RUN mkdir -p C:\app\continuous-intelligence
-RUN git clone https://github.com/ThoughtWorksInc/continuous-intelligence-workshop.git c:\app\continuous-intelligence
+WORKDIR /app/continuous-intelligence
 RUN mkdir C:\app\continuous-intelligence\data
-COPY data C:\app\continuous-intelligence\data
-RUN cd C:\app\continuous-intelligence\data && pip install -r requirements.txt
+
+COPY requirements.txt C:\app\continuous-intelligence\
+RUN cd C:\app\continuous-intelligence && pip install -r requirements.txt
 
 CMD ["C:\app\continuous-intelligence\start.bat"]
