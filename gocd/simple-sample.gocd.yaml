@@ -2,7 +2,8 @@ pipelines:
   my_pipeline:
     group: my_group
     materials:
-      git: https://github.com/arunma/continuous-intelligence-workshop
+      my_git_repo: # the name of material
+        git: https://github.com/arunma/continuous-intelligence-workshop
     stages:
       - build: # name of stage
           jobs:
