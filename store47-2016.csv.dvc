@@ -1,9 +1,10 @@
-cmd: ' python src/download_data.py'
+cmd: python src/download_data.py
 deps:
-- md5: a726db7fcada1d8dab236c31a117ba3f
+- md5: 5da7d6ae82ea4ba0ea086292cca21623
   path: src/download_data.py
-md5: 0d383e4e09ae0b9ace2262949bab6047
+md5: e7737f392136aea08519251645017d87
 outs:
 - cache: true
-  md5: a269ea06e07424957949abb6172578f8
+  md5: d41d8cd98f00b204e9800998ecf8427e
+  metric: false
   path: data/raw/store47-2016.csv

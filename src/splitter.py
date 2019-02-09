@@ -25,7 +25,7 @@ def write_data(table, filename):
 
 def main():
     print("Loading data...")
-    train = pd.read_csv("data/raw/store47-2016.csv")
+    train = pd.read_csv("src/data/raw/store47-2016.csv")
 
     train['date'] = pd.to_datetime(train['date'], format="%Y-%m-%d")
 
