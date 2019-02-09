@@ -4,9 +4,9 @@
 1. Fork repository: https://github.com/ThoughtWorksInc/continuous-intelligence-workshop
 2. Clone repository: `git clone https://github.com/YOUR_USERNAME/continuous-intelligence-workshop`
 3. Start development environment using docker: 
-  - Build image from Dockerfile: `docker build . -f dev-setup.Dockerfile -t ci-workshop-dev`
-    - Windows: `docker build . -f dev-setup-windows.Dockerfile -t ci-workshop-dev`
-  - Start container using image from previous step: `docker run -it -v $(pwd):/app/continuous-intelligence -p 5005:5005 ci-workshop-dev bash`
+  - Build image from Dockerfile: `docker build . -t ci-workshop`
+    - Windows: `docker build . -f Dockerfile-windows -t ci-workshop`
+  - Start container using image from previous step: `docker run -it -v $(pwd):/app/continuous-intelligence -p 5005:5005 ci-workshop bash`
   - That's it! You are in your dev environment with everything you need to develop, experiment and test code!
 
 4. TODO: Get service account key (with read access only) and place it in project root folder as `secret.json`
