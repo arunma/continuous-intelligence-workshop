@@ -1,0 +1,13 @@
+pipelines:
+  my_pipeline:
+    group: my_group
+    materials:
+      my_git:
+        git: https://github.com/arunma/continuous-intelligence-workshop
+    stages:
+      - build: # name of stage
+          jobs:
+            build: # name of the job
+              tasks:
+               - exec: # indicates type of task
+                   command: echo "hello world"
