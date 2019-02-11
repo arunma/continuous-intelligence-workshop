@@ -10,6 +10,9 @@ sys.path.append(os.path.join('src'))
 from sklearn import tree
 from sklearn import ensemble
 import evaluation
+from sklearn.metrics import r2_score
+import mlflow
+import mlflow.sklearn
 
 
 class Model(Enum):
@@ -20,11 +23,11 @@ class Model(Enum):
 
 
 def load_data():
-    filename = "data/splitter/train.csv"
+    filename = "../data/splitter/train.csv"
     print("Loading data from {}".format(filename))
     train = pd.read_csv(filename)
 
-    filename = 'data/splitter/validation.csv'
+    filename = '../data/splitter/validation.csv'
     print("Loading data from {}".format(filename))
     validate = pd.read_csv(filename)
 
@@ -71,11 +74,23 @@ def make_model(train, model=Model.DECISION_TREE, seed=None):
     elif model == Model.ADABOOST:
         clf = ensemble.AdaBoostRegressor(random_state=seed)
     elif model == Model.GRADIENT_BOOST:
-        clf = ensemble.GradientBoostingRegressor(max_depth=4, n_estimators=200, random_state=seed)
+        max_depth = 4
+        n_estimators = 200
+        clf = ensemble.GradientBoostingRegressor(max_depth=max_depth, n_estimators=n_estimators, random_state=seed)
+        print("logging params")
+        mlflow.log_param("max_depth", max_depth)
+        mlflow.log_param("n_estimators", n_estimators)
     else:
-        clf = tree.DecisionTreeRegressor(random_state=seed)
+        max_depth = 4
+        max_leaf_nodes = 3
+        clf = tree.DecisionTreeRegressor(random_state=seed, max_depth=max_depth, max_leaf_nodes=max_leaf_nodes)
+        print("logging params")
+        mlflow.log_param("max_depth", max_depth)
+        mlflow.log_param("max_leaf_nodes", max_leaf_nodes)
 
     clf = clf.fit(train_dropped, target)
+    print ("logging model")
+    mlflow.sklearn.log_model(clf, "model")
     return clf
 
 
@@ -118,16 +133,24 @@ def write_predictions_and_score(validation_score, model, columns_used):
 
 
 def main(model=Model.DECISION_TREE, seed=None):
+    #mlflow.set_tracking_uri("http://35.247.183.209:5000")
+    #mlflow.create_experiment("sales_prediction")
+    tracking_uri = os.getenv('TRACKING_URI', "http://localhost:5000")
+    experiment_name = os.getenv('EXPERIMENT_NAME', "global_experiments")
+    mlflow.set_tracking_uri(tracking_uri)
+    mlflow.create_experiment(experiment_name)
     original_train, original_validate = load_data()
     train, validate = encode(original_train, original_validate)
-    model = make_model(train, Model.RANDOM_FOREST, seed)
+    model = make_model(train, Model.DECISION_TREE, seed)
     validation_predictions = make_predictions(model, validate)
 
     print("Calculating estimated error")
     validation_score = evaluation.nwrmsle(validation_predictions, validate['unit_sales'].values, validate['perishable'].values)
+    #validation_score = r2_score(validate['unit_sales'].values, validation_predictions)
 
     write_predictions_and_score(validation_score, model, original_train.columns)
-
+    print ("Artifact URI ", mlflow.get_artifact_uri())
+    print("Uploaded Experiment URI: " + mlflow.get_artifact_uri)
     print("Decision tree analysis done with a validation score (error rate) of {}.".format(validation_score))
 
 

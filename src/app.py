@@ -3,6 +3,9 @@ from datetime import datetime
 from sklearn.externals import joblib
 import pandas as pd
 import decision_tree
+import mlflow
+import mlflow.sklearn
+import os
 
 app = Flask(__name__, template_folder='webapp/templates', static_folder='webapp/static')
 
@@ -12,7 +15,17 @@ def index():
 
 @app.route('/prediction')
 def get_prediction():
-  loaded_model = joblib.load('data/decision_tree/model.pkl')
+  #loaded_model = joblib.load('data/decision_tree/model.pkl')
+  # mlflow.set_tracking_uri("http://35.247.183.209:5000")
+  # mlflow.create_experiment("sales_prediction")
+  tracking_uri = os.getenv('TRACKING_URI', "http://localhost:5000")
+  experiment_name = os.getenv('EXPERIMENT_NAME', "global_experiments")
+  mlflow.set_tracking_uri(tracking_uri)
+  mlflow.set_experiment(experiment_name)
+  artifact = mlflow.get_artifact_uri
+  print ("Experiment URI " + artifact)
+
+  loaded_model = mlflow.sklearn.load_model("model", "937b7254b4834a72b085bc55cdfbf460")
 
   date_string = request.args.get('date')
 
@@ -37,7 +50,7 @@ def get_prediction():
   df = decision_tree.encode_categorical_columns(df)
   pred = loaded_model.predict(df)
 
-  return "%d" % pred[0]
+  return "%d (From the model version : %s)" % (pred[0], artifact)
 
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port=5005)
