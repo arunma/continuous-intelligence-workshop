@@ -1,5 +1,18 @@
 # Continuous Intelligence Workshop
 
+## Setup
+1. Fork repository: https://github.com/ThoughtWorksInc/continuous-intelligence-workshop
+2. Clone repository: `git clone https://github.com/YOUR_USERNAME/continuous-intelligence-workshop`
+3. Start development environment using docker: 
+  - Build image from Dockerfile: `docker build . -t ci-workshop`
+    - Windows: `docker build . -f Dockerfile-windows -t ci-workshop`
+  - Start container using image from previous step: `docker run -it -v $(pwd):/app/continuous-intelligence -p 5005:5005 ci-workshop bash`
+  - That's it! You are in your dev environment with everything you need to develop, experiment and test code!
+
+4. TODO: Get service account key (with read access only) and place it in project root folder as `secret.json`
+  - run: `export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/secret.json`
+  - note: on our dev machines we can dvc pull, but we should not have access to run `dvc push`
+
 ## Running Workshop with dvc
 
 1. Build the pipline

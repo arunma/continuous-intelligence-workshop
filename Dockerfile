@@ -1,14 +1,15 @@
-FROM eu.gcr.io/continuous-intelligence/gocd-agent-docker-dind-dvc:latest
+FROM ubuntu:latest
 
-RUN mkdir -p /app/continuous-intelligence/{src,data}
+RUN apt-get update \
+  && apt-get install -y python3-pip python3-dev git \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3 python \
+  && pip3 install --upgrade pip
 
-COPY start.sh /app/continuous-intelligence
-COPY src /app/continuous-intelligence/src
-# should copy artifact
-COPY data/decision_tree /app/continuous-intelligence/data/decision_tree
+WORKDIR /app/continuous-intelligence
+RUN mkdir /app/continuous-intelligence/data
 
-RUN chmod +x /app/continuous-intelligence/start.sh
-
-EXPOSE 5005
+COPY requirements.txt /app/continuous-intelligence/
+RUN cd /app/continuous-intelligence && pip3 install -r requirements.txt
 
 CMD ["/app/continuous-intelligence/start.sh"]
