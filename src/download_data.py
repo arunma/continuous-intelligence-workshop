@@ -3,7 +3,7 @@ from google.cloud import storage
 import argparse
 
 def load_data(path, key):
-    gcsBucket = "ai-sg-workshop"
+    gcsBucket = "continuous-intelligence"
 
     if not os.path.exists(path):
         os.makedirs(path)
